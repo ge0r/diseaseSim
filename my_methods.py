@@ -358,15 +358,15 @@ def k4(k_3, f, y, args, y_num):
 
 
 def plot(t, S, I, R):
-    plt.plot(t, S[:, 0] / 1000000, 'r--', linewidth=2, label='S_sth')
-    plt.plot(t, I[:, 0] / 1000000, 'r', linewidth=2, label='I_sth')
-    plt.plot(t, R[:, 0] / 1000000, 'r-.', linewidth=2, label='R_sth')
+    plt.plot(t, S[:, 0] / 1000000, 'r--', linewidth=2, label='S_sto')
+    plt.plot(t, I[:, 0] / 1000000, 'r', linewidth=2, label='I_sto')
+    plt.plot(t, R[:, 0] / 1000000, 'r', linewidth=1, label='R_sto')
     plt.plot(t, S[:, 1] / 1000000, 'g--', linewidth=2, label='S_cph')
     plt.plot(t, I[:, 1] / 1000000, 'g', linewidth=2, label='I_cph')
-    plt.plot(t, R[:, 1] / 1000000, 'g--.', linewidth=2, label='R_cph')
+    plt.plot(t, R[:, 1] / 1000000, 'g', linewidth=1, label='R_cph')
     plt.plot(t, S[:, 2] / 1000000, 'b--', linewidth=2, label='S_osl')
-    plt.plot(t, I[:, 2] / 1000000, 'b-.', linewidth=2, label='I_osl')
-    plt.plot(t, R[:, 2] / 1000000, 'b', linewidth=2, label='R_osl')
+    plt.plot(t, I[:, 2] / 1000000, 'b', linewidth=2, label='I_osl')
+    plt.plot(t, R[:, 2] / 1000000, 'b', linewidth=1, label='R_osl')
 
     plt.title("SIR")
     plt.legend(loc = 4)
