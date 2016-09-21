@@ -19,7 +19,7 @@ class SIS:
         method(alpha, beta, t, S, I, N, h, steps)
 
         axes = plt.gca()
-        axes.set_ylim([0, N])
+        axes.set_ylim([0, N/1000000])
         axes.set_xlim([0, t[steps-1]])
 
     @staticmethod
@@ -52,10 +52,16 @@ class SIS:
             t[i+1] = t[i] + h
             S[i+1] = S[i] + h * SIS.susceptible(y, args)
             I[i+1] = I[i] + h * SIS.infected(y, args)
-            # TODO calculate N-(S+I) difference /error
 
-        plt.plot(t, S, "g")
-        plt.plot(t, I, "y")
+        print 'S = '+str(S[27//h]-227882.312249)+'     I = '+ str(I[27/h]-1788402.68775)
+
+        plt.plot(t, S[:] / 1000000, "g", linewidth=2, label='S_sto')
+        plt.plot(t, I[:] / 1000000, "r", linewidth=2, label='I_sto')
+
+        plt.title("SIS")
+        plt.legend(loc=1)
+        plt.xlabel("Time (days)")
+        plt.ylabel("Number of persons (millions)")
 
     @staticmethod
     # SIS Second-Order Runge-Kutta
@@ -223,7 +229,7 @@ class SIR:
 
             # for every city
             for j in xrange(0, len(N)):
-                y = [S[i][j], I[i][j], R[i][j], N[j], S[i], I[i], R[i]]
+                y = [S[i][j], I[i][j], R[i][j], N[j], S[i], I[i], R[i], j]
 
                 # 3 different derivative values
                 k_1 = k1(f, y, args, 3)
@@ -256,10 +262,6 @@ class SIR:
                 k_3 = k3(k_2, f, y, args, 3)
                 k_4 = k4(k_3, f, y, args, 3)
 
-                S[i+1][j] = S[i][j] + k_2[0]
-                I[i+1][j] = I[i][j] + k_2[1]
-                R[i+1][j] = R[i][j] + k_2[2]
-
                 S[i+1][j] = S[i][j] + k_1[0]/6 + k_2[0]/3 + k_3[0]/3 + k_4[0]/6
                 I[i+1][j] = I[i][j] + k_1[1]/6 + k_2[1]/3 + k_3[1]/3 + k_4[1]/6
                 R[i+1][j] = R[i][j] + k_1[2]/6 + k_2[2]/3 + k_3[2]/3 + k_4[2]/6
@@ -288,10 +290,6 @@ class SIR:
                 k_2 = k2(k_1, f, y, args, 3)
                 k_3 = k3(k_2, f, y, args, 3)
                 k_4 = k4(k_3, f, y, args, 3)
-
-                S[i+1][j] = S[i][j] + k_2[0]
-                I[i+1][j] = I[i][j] + k_2[1]
-                R[i+1][j] = R[i][j] + k_2[2]
 
                 S[i+1][j] = S[i][j] + k_1[0]/6 + k_2[0]/3 + k_3[0]/3 + k_4[0]/6
                 I[i+1][j] = I[i][j] + k_1[1]/6 + k_2[1]/3 + k_3[1]/3 + k_4[1]/6
@@ -367,8 +365,13 @@ def plot(t, S, I, R):
     plt.plot(t, S[:, 2] / 1000000, 'b--', linewidth=2, label='S_osl')
     plt.plot(t, I[:, 2] / 1000000, 'b', linewidth=2, label='I_osl')
     plt.plot(t, R[:, 2] / 1000000, 'b', linewidth=1, label='R_osl')
+    # plt.plot(t, (I[:, 2]+I[:, 1]+I[:, 0]) / 3000000, 'black', linewidth=3, label='I_total')
 
-    plt.title("SIR")
+    Imax = I[:, 2]+I[:, 1]+I[:, 0]
+
+    m = np.amax(Imax/1000000)
+
+    plt.title("SIR, maximum infected = " + str("%.5f" % m) + " million")
     plt.legend(loc = 4)
     plt.xlabel("Time (days)")
     plt.ylabel("Number of persons (millions)")

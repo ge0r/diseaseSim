@@ -59,11 +59,11 @@ class City:
 
 
 # assign parameter values
-alpha = 0.017
+alpha = 0.0179
 beta = 0.22
 gamma = 0.000526
 
-ratio = 0.05
+ratio = 0.03125
 
 # h should be a fraction of the smallest duration/largest rate
 if beta >= alpha:
@@ -82,11 +82,9 @@ A_cph_oslo = 3936.22
 A_oslo_stock = 3672.32
 
 # list containing each city[name, population, initial number of infected]
-cities = [City("Stockholm", 2192433, 1,  [0, A_stock_cph, A_oslo_stock], [1, 1]),
-          City("Copenhagen", 2016285, 10000, [A_stock_cph, 0, A_cph_oslo], [0, 5000]),
-          City("Oslo", 1717900, 1000000,        [A_oslo_stock, A_cph_oslo, 0], [0, 0])]
-
-
+cities = [City("Stockholm", 2192433, 0,  [0, A_stock_cph, A_oslo_stock], [2, 5]),
+          City("Copenhagen", 2016285, 9000, [A_stock_cph, 0, A_cph_oslo], [0, 10]),
+          City("Oslo", 1717900, 0,      [A_oslo_stock, A_cph_oslo, 0], [2, 5])]
 
 # SIS.run(alpha, beta, cities[1], h, steps, SIS.euler)
 # SIS.run(alpha, beta, cities[1], h, steps, SIS.rk_2)
